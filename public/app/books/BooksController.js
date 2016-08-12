@@ -1,9 +1,9 @@
 (function () {
 
     angular.module('app')
-        .controller('BooksController', ['books', 'dataService', 'badgeService', BooksController]);
+        .controller('BooksController', ['books', 'dataService', 'badgeService', '$cookies', '$cookieStore', BooksController]);
 
-    function BooksController(books, dataService, badgeService) {
+    function BooksController(books, dataService, badgeService, $cookies, $cookieStore) {
         var vm = this;
 
         vm.appName = books.appName;
@@ -19,6 +19,8 @@
             .finally(getAllReadersComplete);
 
         vm.getBadge = badgeService.retrieveBadge;
+        vm.favoriteBook = $cookies.favoriteBook;
+        vm.lastEdited = $cookieStore.get('lastEdited');
 
         function getReadersSuccess(books) {
             vm.allReaders = books;
@@ -36,16 +38,16 @@
             console.log(reason);
         }
 
-        function getAllBooksComplete(){
+        function getAllBooksComplete() {
             console.log('getAllBooksComplete has completed');
         }
 
         function errorCallback(errorMessage) {
             console.log('Error message: ' + errorMessage);
         }
-        
-        
-        function getBooksNotification(notification){
+
+
+        function getBooksNotification(notification) {
             console.log('Promise notification:' + notification);
 
         }
